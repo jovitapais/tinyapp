@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = 8081; // default port 8080
+const PORT = 8081; // default port 8081
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -10,7 +10,9 @@ const urlDatabase = {
 app.get("/", (req, res) => {
   res.send("Hello!");
 });
-
+app.get("/urls.json", (req, res) => { //adding additional endpoints
+  res.json(urlDatabase);
+});
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
