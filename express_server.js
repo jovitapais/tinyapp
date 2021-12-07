@@ -4,10 +4,17 @@ const PORT = 8081; // default port 8081
 
 app.set("view engine", "ejs");
 
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({extended: true}));
+
+
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
+
+
+//Routes
 
 app.get("/urls", (req, res) => {
   const templateVars = { urls: urlDatabase };
@@ -21,6 +28,10 @@ app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>\n");
 });
 
+app.get("/urls/new", (req, res) => {
+  res.render("urls_new");
+});
+
 app.get("/urls/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
   const longURL = urlDatabase[shortURL];
@@ -31,6 +42,17 @@ app.get("/urls.json", (req, res) => { //adding additional endpoints
   res.json(urlDatabase);
 });
 
+//POST routes
+
+app.post("/urls", (req, res) => {
+  console.log(req.body);  // Log the POST request body to the console
+  res.send("Ok");         // Respond with 'Ok' (we will replace this)
+});
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+const generateRandomString = function() {
+  return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+
+};
