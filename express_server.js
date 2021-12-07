@@ -1,12 +1,13 @@
 const express = require("express");
 const app = express();
 const PORT = 8081; // default port 8081
-
-app.set("view engine", "ejs");
-
 const bodyParser = require("body-parser");
+//const res = require("express/lib/response");
+
+
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.set("view engine", "ejs");
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -61,12 +62,17 @@ app.post("/urls/", (req, res) => {
   urlDatabase[shortURLGenerated] = longURL;
   //const templateVars = { shortURL, longURL };
   //console.log(req.body);  // Log the POST request body to the console
-  res.redirect(`/urls/${shortURLGenerated}`);         // Respond with 'Ok' (we will replace this)
+  res.redirect(`/urls/${shortURLGenerated}`);
 });
-
+app.post("/urls/:shortURL/delete", (req, res) => { //deleting a URL resource
+  const shortURL = req.params.shortURL;
+  delete urlDatabase[shortURL];
+  res.redirect(`/urls`);
+});
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
 // eslint-disable-next-line func-style
 function generateRandomString() {
   const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
