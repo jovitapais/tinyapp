@@ -2,11 +2,12 @@ const express = require("express");
 const app = express();
 const PORT = 8081; // default port 8081
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 //const res = require("express/lib/response");
 
 
 app.use(bodyParser.urlencoded({extended: true}));
-
+app.use(cookieParser());
 app.set("view engine", "ejs");
 
 const urlDatabase = {
@@ -21,7 +22,12 @@ app.get("/", (req, res) => {
   res.send("Hello!");
 });
 app.get("/urls", (req, res) => {
-  const templateVars = { urls: urlDatabase };
+  const username = req.cookies["userName"];
+  const templateVars = {
+    urls: urlDatabase,
+    username: username,
+  };
+  
   res.render("urls_index", templateVars);
 });
 
@@ -69,6 +75,20 @@ app.post("/urls/:shortURL/delete", (req, res) => { //deleting a URL resource
   delete urlDatabase[shortURL];
   res.redirect(`/urls`);
 });
+app.post("/urls/:id", (req, res) => { //edit
+  const shortURL = req.params.id;
+  const newLongURL = req.body.newLongURL;
+  urlDatabase[shortURL] = newLongURL;
+  res.redirect(`/urls`);
+});
+
+app.post("/login", (req,res) => {
+  const userName = req.body.userName; //input field
+  console.log("user name is ,",userName);
+  res.cookie("userName", userName);  //res.cookie("this is a cookie key", cookie value)
+  res.redirect(`/urls`);
+});
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
