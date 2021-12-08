@@ -4,11 +4,22 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
       </div>
+      <% if (username) { %>
+        <div class="navbar-nav ml-auto d-flex align-items-center"></div>
+        <a class="nav-item nav-link" href="#">log in as:<span class="text-white font-weight-bold"> <%= username %></span></a>
+        <a class="nav-item nav-link" href="/logout"><button type="submit" class="btn btn-info text-white text-capitalize font-weight-bold">logout</button></a>
+       </div>
+      <% }else { %>
+      <form method="POST" action="/login">
+       <input type="text" name="userName" placeholder="UserName">
+       <button type="submit" value="Sign In"> Sign In</button>
+      </form>
+      <% } %>
     </div>
   </nav>
 </header>
