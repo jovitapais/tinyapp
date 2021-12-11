@@ -21,6 +21,9 @@
       <main style="margin: 1em;">
       <h3>Create Account</h3>
       <form class="form-inline" action="/register" method="POST">
+        <% if (err_msg) { %>
+          <p class="text-danger font-weight-bold"><%= err_msg %></p>
+        <% } %>
         <div class="form-group mb-2">
           <label for="email">Email</label>
           <input class="form-control" id="email" type="email" name="email" placeholder="Email" style="width: 300px; margin: 1em">
