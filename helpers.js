@@ -1,11 +1,12 @@
 // Find user in database by email
-const findUserByEmail = function(email, users) {
-  for (let userID in users) {
-    let user = users[userID];
-    if (user.email === email) {
+const findUserByEmail = function(email, database) {
+  for (let userID in database) {
+    let user = database[userID].email;
+    if (user === email) {
       return user;
     }
   }
+  return null;
 };
 
 // Random string generator
@@ -20,7 +21,7 @@ function generateRandomString() {
   return result;
 }
 
-// Checks if such short URL exists
+// Check if this short url exists
 const findShortUrlInUrlDatabase = function(shortURL, database) {
   let urlDatabaseKeys = Object.keys(database);
   for (let urlToCheck of urlDatabaseKeys) {
@@ -44,4 +45,8 @@ const urlsForUser = (id, database) => {
   return urls;
 };
 
-module.exports = { findUserByEmail, generateRandomString, findShortUrlInUrlDatabase, urlsForUser };
+module.exports = {
+  findUserByEmail,
+  generateRandomString,
+  findShortUrlInUrlDatabase,
+  urlsForUser };
