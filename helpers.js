@@ -37,8 +37,10 @@ const urlsForUser = (id, database) => {
   let urls = {};
 
   for (const shortURL in database) {
-    if (database[shortURL]["userId"] === id) {
+    if (database[shortURL]["userID"] === id) {
+      
       urls[shortURL] = database[shortURL].longURL;
+      
     }
   }
 
