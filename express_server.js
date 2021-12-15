@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const PORT = 8081; // default port 8081
 const bodyParser = require("body-parser");
-//const cookieParser = require("cookie-parser");
 const bcrypt = require("bcryptjs");
 const cookieSession = require("cookie-session");
 const {
@@ -18,7 +17,7 @@ app.set("view engine", "ejs");
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(cookieParser());
+
 
 app.use(
   cookieSession({
@@ -32,7 +31,7 @@ app.use(
 //Home page
 app.get("/", (req, res) => {
   const userID = req.session.userId;
-  //console.log("line 34", userID);
+ 
   const user = users[userID];
 
   if (!user) {
@@ -206,7 +205,7 @@ app.post("/login", (req, res) => {
     //if the username and password are not empty
     const user = findUserByEmail(email, users);
     if (user) {
-      //if the user is returned then I want to check for the password
+      //if the user is returned then check for the password
       const checkPassword = bcrypt.compareSync(password, user.hashedPassword);
       if (!checkPassword) {
         return res.status(403).send("Incorrect email/password");
