@@ -87,6 +87,10 @@ app.get("/urls/:shortURL", (req, res) => {
     return res.status(404).send("Such shortURL is not found in your account");
   }
 
+  if (userID !== urlDatabase[shortURL].userID) {
+    return res.status(404).send("Cannot access url with this email id");
+  }
+
   const templateVars = {
     user,
     shortURL: shortURL,
@@ -184,8 +188,9 @@ app.get("/login", (req, res) => {
 
 // Logout
 app.post("/logout", (req, res) => {
+  req.session = null;
 
-  delete req.session.userId;
+  
   
   res.redirect("/urls/");
 });
